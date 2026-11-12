@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acesso Remoto</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:20px;
+  background:#06152e;color:white;
+  font-family:Arial,sans-serif;
+}
+header{text-align:center;margin:20px 0 30px}
+h1{color:#00d9ff;font-size:30px}
+.card{
+  background:#102b4c;
+  border:1px solid #168bd0;
+  border-radius:16px;
+  padding:20px;margin:16px 0;
+}
+button{
+  width:100%;padding:16px;
+  margin-top:12px;border:0;
+  border-radius:12px;
+  background:#008cff;color:white;
+  font-size:17px;font-weight:bold;
+}
+button:disabled{opacity:.5}
+input{
+  width:100%;padding:15px;
+  border-radius:10px;border:1px solid #00cfff;
+  background:#071b35;color:white;
+  font-size:18px;margin-top:12px;
+}
+.option{background:#163b60}
+.green{background:#087b42}
+.red{background:#a51d2d}
+small{color:#b8d5ee}
+#status{color:#63ff9b;font-weight:bold}
+</style>
+</head>
+<body>
+
+<header>
+<h1>📱 Acesso Remoto</h1>
+<p>Conexão entre dois celulares</p>
+</header>
+
+<div class="card">
+<h2>Escolha seu aparelho</h2>
+<button class="option" onclick="modo('controlador')">
+Celular Controlador
+</button>
+<button class="option" onclick="modo('controlado')">
+Celular Controlado
+</button>
+<p id="modo">Nenhum modo selecionado.</p>
+</div>
+
+<div class="card">
+<h2>Identificação do aparelho</h2>
+<p>Seu código de conexão:</p>
+<h1 id="codigo">------</h1>
+<button onclick="gerarCodigo()">Gerar código</button>
+</div>
+
+<div class="card">
+<h2>Conectar a outro celular</h2>
+<input id="destino" placeholder="Digite o código do outro celular">
+<button onclick="solicitar()">Solicitar conexão</button>
+<p id="status">Aguardando solicitação.</p>
+</div>
+
+<div class="card">
+<h2>Autorização do proprietário</h2>
+<p>O acesso depende da autorização explícita do proprietário.</p>
+<label>
+<input type="checkbox" id="consentimento">
+ Eu autorizo esta solicitação de conexão.
+</label>
+<button class="green" onclick="autorizar()">Autorizar acesso</button>
+<button class="red" onclick="recusar()">Recusar acesso</button>
+<button class="red" onclick="encerrar()">Encerrar sessão</button>
+</div>
+
+<div class="card">
+<h3>🔒 Segurança</h3>
+<p>O proprietário deve manter o controle e pode recusar ou encerrar o acesso.</p>
+<small>Versão inicial de demonstração. A comunicação real entre aparelhos, criptografia e controle remoto ainda precisam ser implementados.</small>
+</div>
+
+<script>
+let tipo="";
+let codigo="";
+
+function modo(valor){
+ tipo=valor;
+ document.getElementById("modo").textContent=
+ valor==="controlador"?
+ "Modo Controlador selecionado.":
+ "Modo Controlado selecionado.";
+}
+
+function gerarCodigo(){
+ codigo=String(Math.floor(100000+Math.random()*900000));
+ document.getElementById("codigo").textContent=codigo;
+}
+
+function solicitar(){
+ let destino=document.getElementById("destino").value.trim();
+ if(!destino){
+  alert("Digite o código do outro celular.");
+  return;
+ }
+ document.getElementById("status").textContent=
+ "Solicitação preparada para o código "+destino+".";
+}
+
+function autorizar(){
+ if(!document.getElementById("consentimento").checked){
+  alert("Marque a autorização do proprietário.");
+  return;
+ }
+ document.getElementById("status").textContent=
+ "Autorização local registrada na demonstração.";
+}
+
+function recusar(){
+ document.getElementById("consentimento").checked=false;
+ document.getElementById("status").textContent="Acesso recusado.";
+}
+
+function encerrar(){
+ document.getElementById("consentimento").checked=false;
+ document.getElementById("status").textContent="Sessão encerrada.";
+}
+</script>
+
+</body>
+  </html>
+  
